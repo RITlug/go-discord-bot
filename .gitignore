@@ -1,0 +1,5 @@
+# The file containing the environment variables (will contain API tokens so don't commit this file) that will be read by the Discord bot
+.env
+
+# Build outputs
+build

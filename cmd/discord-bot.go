@@ -1,3 +1,11 @@
+/*
+A basic example of how to use the discordgo package.
+This example creates a bot that tells a knock-knock
+joke. A Discord user initiates the joke by mentioning
+the bot and saying "tell me a joke" (case insensitive).
+The bot will then proceed to make posts, expecting the
+usual responses for a knock-knock joke from the user.
+*/
 package main
 
 import (
@@ -25,6 +33,7 @@ func messageMentions(m *discordgo.Message, user *discordgo.User) bool {
 	return strings.Contains(m.Content, user.Mention())
 }
 
+// Parse command line flags to get the Discord bot token
 func init() {
 	CommandLineOpts = flag.NewFlagSet("Discord Bot", flag.ExitOnError)
 	CommandLineOpts.StringVar(&Token, "t", "", "Bot Token")
@@ -34,7 +43,6 @@ func init() {
 		CommandLineOpts.Usage()
 		os.Exit(2)
 	}
-
 }
 
 func main() {
@@ -83,7 +91,7 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 	fmt.Fprintln(os.Stderr, "Got message:", m.Content)
 
 	if messageMentions(m.Message, s.State.User) && strings.Contains(text, "tell me a joke") {
-		// If the user @-s the bot with a message containing the string "tell me a joke" (case-insensitive)
+		// If the user mentions the bot with a message containing the string "tell me a joke" (case-insensitive)
 		response := fmt.Sprintf("%s Knock, knock.", m.Author.Mention())
 		s.ChannelMessageSend(m.ChannelID, response)
 	} else if WhosThere.Match([]byte(text)) {
